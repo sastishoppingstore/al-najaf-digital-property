@@ -1,0 +1,90 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  theme: {
+    extend: {
+      colors: {
+        navy: {
+          50: '#E6ECF3',
+          100: '#C1CFDF',
+          200: '#98AECA',
+          300: '#6E8CB6',
+          400: '#4D6FA0',
+          500: '#2E5289',
+          600: '#1A3D6E',
+          700: '#0A2540',
+          800: '#081E33',
+          900: '#061728',
+        },
+        gold: {
+          50: '#FDF8E8',
+          100: '#F5EAC8',
+          200: '#ECD794',
+          300: '#DDC05C',
+          400: '#C9A227',
+          500: '#B08D1F',
+          600: '#8C701A',
+          700: '#695414',
+          800: '#47380E',
+          900: '#2A2108',
+        },
+        cream: '#FEFCF3',
+        amber: {
+          50: '#FFF8E7',
+          100: '#FEF0CC',
+          200: '#FDE199',
+          300: '#FCD266',
+          400: '#FBC333',
+          500: '#FAB400',
+          600: '#C89000',
+          700: '#966C00',
+          800: '#644800',
+          900: '#322400',
+        },
+        green: {
+          50: '#E6F4EA',
+          100: '#C2EBC0',
+          200: '#99DC91',
+          300: '#70CC62',
+          400: '#4CB83E',
+          500: '#1A7A3C',  /* Main green theme color */
+          600: '#165E32',
+          700: '#124227',
+          800: '#0D2B1C',
+          900: '#081610',
+        },
+        cream: '#FEFCF3',
+      },
+      boxShadow: {
+        card: '0 4px 24px -6px rgba(10, 37, 64, 0.12)',
+        'card-hover': '0 18px 40px -8px rgba(10, 37, 64, 0.22)',
+        gold: '0 4px 24px -6px rgba(201, 162, 39, 0.2), 0 0 0 1px rgba(201, 162, 39, 0.15)',
+        'gold-lg': '0 12px 40px -8px rgba(201, 162, 39, 0.3), 0 0 0 1px rgba(201, 162, 39, 0.25)',
+        'gold-glow': '0 0 20px -4px rgba(201, 162, 39, 0.3), 0 20px 50px -10px rgba(201, 162, 39, 0.25)',
+        'gold-inner': 'inset 0 0 20px -6px rgba(201, 162, 39, 0.15)',
+        green: '0 4px 24px -6px rgba(26, 122, 60, 0.2), 0 0 0 1px rgba(26, 122, 60, 0.15)',
+        'green-lg': '0 12px 40px -8px rgba(26, 122, 60, 0.3), 0 0 0 1px rgba(26, 122, 60, 0.25)',
+      },
+      keyframes: {
+        'fade-up': {
+          '0%': { opacity: '0', transform: 'translateY(16px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'scale-in': {
+          '0%': { opacity: '0', transform: 'scale(0.96)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        shimmer: {
+          '0%': { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' },
+        },
+      },
+      animation: {
+        'fade-up': 'fade-up 0.6s ease-out both',
+        'scale-in': 'scale-in 0.4s ease-out both',
+        shimmer: 'shimmer 2s linear infinite',
+      },
+    },
+  },
+  plugins: [],
+};

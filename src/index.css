@@ -1,0 +1,314 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap');
+@import 'leaflet/dist/leaflet.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Consistent page container — max-width 1280px across all pages */
+.page-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+@media (min-width: 640px) {
+  .page-container { padding: 0 24px; }
+}
+
+body {
+  @apply bg-gradient-to-br from-amber-50 via-cream to-yellow-50 text-navy-700 font-sans antialiased;
+}
+
+/* ===== GOLDEN 3D CARD SYSTEM ===== */
+.card-3d {
+  @apply rounded-2xl bg-white/90 shadow-gold transition-all duration-300 ease-out;
+  border: 1px solid rgba(201, 162, 39, 0.2);
+  backdrop-filter: blur(4px);
+  transform-style: preserve-3d;
+}
+.card-3d:hover {
+  transform: translateY(-6px) scale(1.03) rotateX(2deg);
+  border-color: rgba(201, 162, 39, 0.6);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Property / product card image — fills card width properly */
+.property-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform-style: preserve-3d;
+}
+.property-card:hover {
+  transform: translateY(-6px) scale(1.03) rotateX(2deg);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+.property-card .property-card-img {
+  width: 100%;
+  height: auto;
+  min-height: 220px;
+  object-fit: cover;
+}
+
+/* Gold gradient text */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #E8D48E 0%, #C9A227 40%, #DDC05C 70%, #8C701A 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom scrollbar - golden */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { @apply bg-amber-100; }
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #DDC05C, #C9A227); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #C9A227, #B08D1F); }
+
+/* Footer branches — 2x2 grid on mobile and desktop */
+.footer-branches {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 480px) {
+  .footer-branches {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .footer-branches .branch-card {
+    font-size: 13px;
+  }
+}
+
+/* Leaflet container styling */
+.leaflet-container {
+  @apply rounded-xl;
+  font-family: inherit;
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ===== GOLDEN 3D ANIMATION SYSTEM ===== */
+
+/* Perspective wrapper */
+.scene-3d {
+  perspective: 1200px;
+  perspective-origin: center center;
+}
+
+/* 3D tilt card - interactive golden */
+.tilt-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+  will-change: transform;
+}
+.tilt-3d:hover {
+  transform: rotateX(5deg) rotateY(-6deg) translateZ(24px);
+  box-shadow: 0 0 30px -6px rgba(201, 162, 39, 0.35), 0 24px 60px -12px rgba(201, 162, 39, 0.2);
+}
+
+/* Layered 3D depth on children */
+.tilt-3d .layer-1 { transform: translateZ(36px); transition: transform 0.4s ease; }
+.tilt-3d .layer-2 { transform: translateZ(60px); transition: transform 0.4s ease; }
+.tilt-3d .layer-3 { transform: translateZ(84px); transition: transform 0.4s ease; }
+
+/* Golden shine overlay on tilt */
+.tilt-3d::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255,215,0,0.08) 0%, transparent 50%, rgba(255,215,0,0.04) 100%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.tilt-3d:hover::after {
+  opacity: 1;
+}
+
+/* 3D gold glow card */
+.card-glow {
+  position: relative;
+  overflow: hidden;
+}
+.card-glow::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #DDC05C, #C9A227, #E8D48E, #C9A227);
+  background-size: 300% 300%;
+  animation: gradient-shift 4s ease infinite;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.4s ease;
+}
+.card-glow:hover::before {
+  opacity: 1;
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-scale.in-view {
+  opacity: 1;
+  transform: scale(1);
+}
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-left.in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+.reveal-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-right.in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* 3D floating animation */
+@keyframes float-3d {
+  0%, 100% { transform: translateY(0) rotateX(0) rotateY(0); }
+  50% { transform: translateY(-14px) rotateX(3deg) rotateY(2deg); }
+}
+.float-3d {
+  animation: float-3d 4s ease-in-out infinite;
+}
+
+/* 3D entrance - golden */
+@keyframes enter-3d {
+  0% { opacity: 0; transform: perspective(800px) rotateX(20deg) translateY(60px) scale(0.95); filter: brightness(0.8); }
+  100% { opacity: 1; transform: perspective(800px) rotateX(0) translateY(0) scale(1); filter: brightness(1); }
+}
+.enter-3d {
+  animation: enter-3d 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Golden shimmer loading */
+@keyframes gold-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.shimmer-gold {
+  background: linear-gradient(90deg, #F5EAC8 25%, #ECD794 50%, #F5EAC8 75%);
+  background-size: 200% 100%;
+  animation: gold-shimmer 1.5s infinite;
+}
+
+/* Glassmorphism - golden */
+.glass {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(201, 162, 39, 0.15);
+}
+
+/* Gradient shift animation */
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.gradient-animated {
+  background-size: 200% 200%;
+  animation: gradient-shift 6s ease infinite;
+}
+
+/* Gold pulse ring */
+@keyframes gold-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(201, 162, 39, 0.5); }
+  70% { box-shadow: 0 0 0 12px rgba(201, 162, 39, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(201, 162, 39, 0); }
+}
+.gold-pulse {
+  animation: gold-pulse 2s infinite;
+}
+
+/* 3D slide auto-carousel card */
+.scale-3d-slide {
+  perspective: 800px;
+  animation: slide-3d-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes slide-3d-in {
+  0% { opacity: 0; transform: perspective(800px) rotateY(15deg) translateZ(-60px) scale(0.92); filter: brightness(0.7); }
+  100% { opacity: 1; transform: perspective(800px) rotateY(0deg) translateZ(0) scale(1); filter: brightness(1); }
+}
+
+/* Gold border glow */
+.border-gold-glow {
+  border: 1px solid rgba(201, 162, 39, 0.3);
+  box-shadow: 0 0 12px -4px rgba(201, 162, 39, 0.15);
+}
+
+/* Stagger delays */
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }
+.delay-6 { transition-delay: 0.6s; }
+
+/* ===== GOLDEN SELECT, INPUT, BUTTON STYLES ===== */
+select, input, button, textarea {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+select:focus, input:focus, textarea:focus {
+  border-color: #C9A227 !important;
+  box-shadow: 0 0 0 2px rgba(201, 162, 39, 0.15) !important;
+}
+
+/* Golden badge pulse */
+@keyframes badge-glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+.badge-gold-glow {
+  animation: badge-glow 2s ease-in-out infinite;
+}
+
+/* Bounce slow animation for WhatsApp button */
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.animate-bounce-slow { animation: bounce-slow 2s infinite; }
+
+img { max-width: 100%; height: auto; }
+
+/* RTL support */
+[dir='rtl'] .reveal-left { transform: translateX(50px); }
+[dir='rtl'] .reveal-left.in-view { transform: translateX(0); }
+[dir='rtl'] .reveal-right { transform: translateX(-50px); }
+[dir='rtl'] .reveal-right.in-view { transform: translateX(0); }
+[dir='rtl'] .tilt-3d:hover { transform: rotateX(5deg) rotateY(6deg) translateZ(24px); }

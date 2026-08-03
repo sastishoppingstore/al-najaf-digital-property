@@ -1,0 +1,32 @@
+# ============================================================
+# Uploads Directory - Security Configuration
+# ============================================================
+# This directory stores user-uploaded files. Direct access is
+# denied to prevent execution of malicious scripts.
+# ============================================================
+
+# Deny all direct access
+Require all denied
+
+# Prevent PHP execution in this directory
+<FilesMatch "\.(php|phtml|php3|php4|php5|php7|phps|pht)$">
+    Require all denied
+    RemoveHandler .php .phtml .php3 .php4 .php5 .php7 .phps .pht
+    RemoveType .php .phtml .php3 .php4 .php5 .php7 .phps .pht
+    php_flag engine off
+</FilesMatch>
+
+# Allow only specific file types to be served (if direct access needed)
+# <FilesMatch "\.(pdf|jpg|jpeg|png)$">
+#     Require all granted
+# </FilesMatch>
+
+# Prevent directory listing
+Options -Indexes
+
+# Set content type for common file types
+<IfModule mod_mime.c>
+    AddType application/pdf .pdf
+    AddType image/jpeg .jpg .jpeg
+    AddType image/png .png
+</IfModule>

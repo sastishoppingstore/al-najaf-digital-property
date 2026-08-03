@@ -1,0 +1,87 @@
+# ============================================================
+# Al Najaf Digital Estate - API .htaccess
+# Apache rewrite rules + CORS headers + security
+# ============================================================
+
+# Enable rewrite engine
+RewriteEngine On
+
+# ------------------------------------------------------------
+# CORS Configuration
+# ------------------------------------------------------------
+# Whitelist of allowed origins (edit to match your frontend domains)
+SetEnvIf Origin "^https://(alnajaf-estate\.com|www\.alnajaf-estate\.com|app\.alnajaf-estate\.com)$" CORS_ALLOW_ORIGIN=$0
+Header set Access-Control-Allow-Origin "%{CORS_ALLOW_ORIGIN}e" env=CORS_ALLOW_ORIGIN
+Header set Access-Control-Allow-Methods "GET, POST, PUT, PATCH, DELETE, OPTIONS" env=CORS_ALLOW_ORIGIN
+Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With, X-Client-Info" env=CORS_ALLOW_ORIGIN
+Header set Access-Control-Allow-Credentials "true" env=CORS_ALLOW_ORIGIN
+Header set Access-Control-Max-Age "86400" env=CORS_ALLOW_ORIGIN
+
+# Handle preflight OPTIONS requests immediately
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^(.*)$ $1 [R=204,L]
+
+# ------------------------------------------------------------
+# Security Headers
+# ------------------------------------------------------------
+Header set X-Content-Type-Options "nosniff"
+Header set X-Frame-Options "SAMEORIGIN"
+Header set X-XSS-Protection "1; mode=block"
+Header set Referrer-Policy "strict-origin-when-cross-origin"
+Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+
+# ------------------------------------------------------------
+# Rate Limiting Notes
+# ------------------------------------------------------------
+# Apache mod_evasive or mod_qos is recommended for true rate limiting.
+# Suggested mod_evasive config (in apache2.conf or vhost):
+#   DOSHashTableSize 3097
+#   DOSPageCount 60        # max 60 requests per page per 2s
+#   DOSSiteCount 500       # max 500 requests per site per 2s
+#   DOSPageInterval 2
+#   DOSSiteInterval 2
+#   DOSBlockingPeriod 10
+# Application-level rate limiting is also implemented in utils/auth.php
+# using a per-IP + per-endpoint token bucket stored in the database.
+
+# ------------------------------------------------------------
+# Routing - route all requests to front controller
+# ------------------------------------------------------------
+# If the request is not a real file or directory, send to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
+
+# ------------------------------------------------------------
+# Protect sensitive files
+# ------------------------------------------------------------
+<FilesMatch "(^\.|config\.php$|\.sql$|\.log$|\.md$)">
+    Require all denied
+</FilesMatch>
+
+# ------------------------------------------------------------
+# Prevent PHP execution in uploads directory
+# ------------------------------------------------------------
+# (Also see uploads/.htaccess for additional protection)
+
+# ------------------------------------------------------------
+# Default content type for API responses
+# ------------------------------------------------------------
+<IfModule mod_mime.c>
+    AddDefaultCharset UTF-8
+</IfModule>
+
+# ------------------------------------------------------------
+# Compression
+# ------------------------------------------------------------
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE application/json text/html text/plain text/xml
+</IfModule>
+
+# ------------------------------------------------------------
+# Cache control for API responses (prevent caching)
+# ------------------------------------------------------------
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType application/json "access plus 0 seconds"
+</IfModule>
