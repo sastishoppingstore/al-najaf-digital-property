@@ -52,7 +52,7 @@ async function callAPI(data: Record<string, unknown>, emailDetails: { recipient:
   });
 
   try {
-    const API_URL = new URL('api/send-mail.php', window.location.origin + window.location.pathname.replace(/\/[^/]*$/, '') + '/').href;
+    const API_URL = new URL('api/send-mail.php', window.location.origin + '/').href;
     const res = await fetch(API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

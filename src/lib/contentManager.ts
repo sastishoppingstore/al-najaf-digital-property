@@ -1,4 +1,4 @@
-const API_URL = new URL('api/index.php', window.location.origin + window.location.pathname.replace(/\/[^/]*$/, '') + '/').href;
+const API_URL = new URL('api/index.php', window.location.origin + '/').href;
 
 async function apiPost(data: Record<string, unknown>) {
   try {

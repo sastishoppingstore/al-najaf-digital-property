@@ -7,7 +7,6 @@ import {
   Lock, ShieldAlert, ArrowRight, Send, LogOut, MessageSquare, AlertCircle,
 } from 'lucide-react';
 import { useLang } from '@/lib/i18n';
-import { Reveal } from '@/lib/useScrollReveal';
 import {
   addCustomProperty, updateCustomProperty, deleteCustomProperty,
   getCustomProperties, getAllProperties, approveCustomProperty, rejectCustomProperty,
@@ -410,7 +409,7 @@ export function AdminPage() {
                 <Widget icon={<Stamp className="h-5 w-5" />} label={t('admin.pendingEstamp')} value={`${getOrders().filter(o => o.orderType.includes('E-Stamp')).length}`} trend="Total" color="gold" />
                 <Widget icon={<Briefcase className="h-5 w-5" />} label={t('admin.serviceRequests')} value={`${getOrders().filter(o => o.orderType !== 'E-Stamp Application').length}`} trend="Total" color="emerald" />
               </div>
-              <Reveal>
+              <div>
                 <AdminCard title={t('admin.recentActivity')}>
                   <div className="space-y-3">
                     {(() => {
@@ -429,12 +428,12 @@ export function AdminPage() {
                     })()}
                   </div>
                 </AdminCard>
-              </Reveal>
+              </div>
             </div>
           )}
 
           {active === 'properties' && (
-            <Reveal><AdminCard title={t('admin.properties')}>
+            <div><AdminCard title={t('admin.properties')}>
               <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                 <p className="text-sm text-navy-500">Manage all properties — add new, edit, verify status, approve or reject</p>
                 <button onClick={handleNewProp} className="inline-flex items-center gap-1.5 rounded-xl bg-gold-400 px-5 py-2.5 text-sm font-semibold text-navy-800 hover:bg-gold-300 shadow-sm"><Plus className="h-4 w-4" /> Add New Property</button>
@@ -565,11 +564,11 @@ export function AdminPage() {
                   </div>
                 );
               })}</div>
-            </AdminCard></Reveal>
+            </AdminCard></div>
           )}
 
           {active === 'property-crud' && (
-            <Reveal><AdminCard title="Property CRUD & Verification Status Manager">
+            <div><AdminCard title="Property CRUD & Verification Status Manager">
               <div className="mb-4 flex items-center justify-between">
                 <p className="text-sm text-navy-500">Manage all properties — click "Status / Verify" button to open approval modal</p>
                 <button onClick={handleNewProp} className="inline-flex items-center gap-1.5 rounded-xl bg-gold-400 px-4 py-2 text-sm font-semibold text-navy-800 hover:bg-gold-300"><Plus className="h-4 w-4" /> Add Property</button>
@@ -694,22 +693,22 @@ export function AdminPage() {
                   );
                 })}
               </div>
-            </AdminCard></Reveal>
+            </AdminCard></div>
           )}
 
 
           {active === 'estamp' && (
-            <Reveal><AdminCard title={t('admin.estamp')}>
+            <div><AdminCard title={t('admin.estamp')}>
               <div className="py-8 text-center">
                 <Stamp className="mx-auto h-10 w-10 text-navy-200" />
                 <p className="mt-3 text-sm text-navy-500">E-Stamp applications will appear here. Manage stamp types and fees in E-Stamp Settings.</p>
                 <button onClick={() => setActive('estamp-settings')} className="mt-4 rounded-xl bg-gold-400 px-5 py-2.5 text-sm font-semibold text-navy-800 hover:bg-gold-300">Go to E-Stamp Settings</button>
               </div>
-            </AdminCard></Reveal>
+            </AdminCard></div>
           )}
 
           {active === 'users' && (
-            <Reveal><AdminCard title={t('admin.users')}>
+            <div><AdminCard title={t('admin.users')}>
               <div className="space-y-3">{getAllUsers().map((u) => {
                 const isSuper = u.role === 'super_admin';
                 return (
@@ -732,11 +731,11 @@ export function AdminPage() {
                   </div>
                 );
               })}</div>
-            </AdminCard></Reveal>
+            </AdminCard></div>
           )}
 
           {active === 'lawyers' && (
-            <Reveal><AdminCard title={t('admin.lawyers')}>
+            <div><AdminCard title={t('admin.lawyers')}>
               <div className="space-y-3">{editableLawyers.length === 0 ? (
                 <p className="py-4 text-center text-sm text-navy-400">No lawyers added yet. Use <strong>Lawyers Editor</strong> to add.</p>
               ) : editableLawyers.map((l) => (
@@ -747,11 +746,11 @@ export function AdminPage() {
                   <button onClick={() => setActive('lawyers-manager')} className="rounded-lg bg-navy-50 px-3 py-1.5 text-xs font-medium text-navy-600 hover:bg-navy-100">Manage</button>
                 </div>
               ))}</div>
-            </AdminCard></Reveal>
+            </AdminCard></div>
           )}
 
           {active === 'services' && (
-            <Reveal><AdminCard title={t('admin.services')}>
+            <div><AdminCard title={t('admin.services')}>
               <div className="space-y-3">{editableServices.length === 0 ? (
                 <p className="py-4 text-center text-sm text-navy-400">No services added yet. Use <strong>Services Editor</strong> to add.</p>
               ) : editableServices.map((s) => (
@@ -761,7 +760,7 @@ export function AdminPage() {
                   <button onClick={() => setActive('services-manager')} className="rounded-lg bg-navy-50 px-3 py-1.5 text-xs font-medium text-navy-600 hover:bg-navy-100">Manage</button>
                 </div>
               ))}</div>
-            </AdminCard></Reveal>
+            </AdminCard></div>
           )}
 
           {/* CAPITAL VALLEY */}
@@ -957,7 +956,7 @@ export function AdminPage() {
 
           {/* E-STAMP SETTINGS */}
           {active === 'estamp-settings' && (
-            <Reveal><AdminCard title="E-Stamp Settings">
+            <div><AdminCard title="E-Stamp Settings">
               <div className="space-y-6">
                 <div className="rounded-xl border border-navy-100 bg-navy-50/50 p-4">
                   <h3 className="mb-3 font-semibold text-navy-800">Fee Settings</h3>
@@ -989,12 +988,12 @@ export function AdminPage() {
                 </div>
                 <button onClick={() => { saveStampTypes(stampTypes); saveStampFees(stampFees); showSaved(); }} className="inline-flex items-center gap-2 rounded-xl bg-gold-400 px-6 py-3 font-semibold text-navy-800 hover:bg-gold-300"><Save className="h-4 w-4" /> Save E-Stamp Settings</button>
               </div>
-            </AdminCard></Reveal>
+            </AdminCard></div>
           )}
 
           {/* SERVICES EDITOR */}
           {active === 'services-manager' && (
-            <Reveal><AdminCard title="Services Editor">
+            <div><AdminCard title="Services Editor">
               <p className="mb-4 text-sm text-navy-500">Every service is editable here — name, description, fee, duration and image. Upload a new image or paste a URL.</p>
               <div className="space-y-4">
                 {editableServices.map((svc, i) => (
@@ -1026,12 +1025,12 @@ export function AdminPage() {
                 <button onClick={() => setEditableServices([...editableServices, { id: `svc-${Date.now()}`, name: '', shortName: '', description: '', fee: '', duration: '', icon: '', image: '', category: '' }])} className="inline-flex items-center gap-1 rounded-lg border border-dashed border-navy-200 px-4 py-2 text-xs font-medium text-navy-600 hover:bg-navy-50"><Plus className="h-3 w-3" /> Add Service</button>
                 <button onClick={() => { saveManagedServices(editableServices); showSaved(); }} className="inline-flex items-center gap-2 rounded-xl bg-gold-400 px-6 py-3 font-semibold text-navy-800 hover:bg-gold-300"><Save className="h-4 w-4" /> Save Services</button>
               </div>
-            </AdminCard></Reveal>
+            </AdminCard></div>
           )}
 
           {/* LAWYERS EDITOR */}
           {active === 'lawyers-manager' && (
-            <Reveal><AdminCard title="Lawyers Editor">
+            <div><AdminCard title="Lawyers Editor">
               <div className="space-y-4">
                 {editableLawyers.map((lw, i) => (
                   <div key={lw.id} className="flex flex-wrap gap-2 rounded-lg border border-navy-100 p-3">
@@ -1048,12 +1047,12 @@ export function AdminPage() {
                 <button onClick={() => setEditableLawyers([...editableLawyers, { id: `law-${Date.now()}`, name: '', designation: '', specializations: [], experience: 0, rating: 0, reviews: 0, fee: 0, city: '', image: '', barCouncil: '', education: '', bio: '' }])} className="inline-flex items-center gap-1 rounded-lg border border-dashed border-navy-200 px-4 py-2 text-xs font-medium text-navy-600 hover:bg-navy-50"><Plus className="h-3 w-3" /> Add Lawyer</button>
                 <button onClick={() => { saveManagedLawyers(editableLawyers); showSaved(); }} className="inline-flex items-center gap-2 rounded-xl bg-gold-400 px-6 py-3 font-semibold text-navy-800 hover:bg-gold-300"><Save className="h-4 w-4" /> Save Lawyers</button>
               </div>
-            </AdminCard></Reveal>
+            </AdminCard></div>
           )}
 
           {/* PAGE TEXT EDITOR */}
           {active === 'content-text' && (
-            <Reveal><AdminCard title="Page Text Editor">
+            <div><AdminCard title="Page Text Editor">
               <p className="mb-4 text-sm text-navy-500">Edit text content used across the site. Each key maps to a specific text location.</p>
               <div className="space-y-4">
                 {Object.entries(pageText).map(([key, val]) => (
@@ -1071,12 +1070,12 @@ export function AdminPage() {
                 </div>
                 <button onClick={saveSiteText} className="inline-flex items-center gap-2 rounded-xl bg-gold-400 px-6 py-3 font-semibold text-navy-800 hover:bg-gold-300"><Save className="h-4 w-4" /> Save All Page Text</button>
               </div>
-            </AdminCard></Reveal>
+            </AdminCard></div>
           )}
 
           {/* CITIES / TOWNS */}
           {active === 'cities' && (
-            <Reveal><AdminCard title="Cities & Towns">
+            <div><AdminCard title="Cities & Towns">
               <div className="space-y-6">
                 <div>
                   <h3 className="mb-3 font-semibold text-navy-800">Cities</h3>
@@ -1110,12 +1109,12 @@ export function AdminPage() {
                 </div>
                 <button onClick={() => { saveManagedCities(adminCities); saveManagedTowns(adminTowns); showSaved(); }} className="inline-flex items-center gap-2 rounded-xl bg-gold-400 px-6 py-3 font-semibold text-navy-800 hover:bg-gold-300"><Save className="h-4 w-4" /> Save Cities & Towns</button>
               </div>
-            </AdminCard></Reveal>
+            </AdminCard></div>
           )}
 
           {/* CATEGORIES / SUB-CATEGORIES */}
           {active === 'categories' && (
-            <Reveal><AdminCard title="Categories & Sub-Categories">
+            <div><AdminCard title="Categories & Sub-Categories">
               <div className="space-y-6">
                 <div>
                   <h3 className="mb-3 font-semibold text-navy-800">Categories</h3>
@@ -1147,12 +1146,12 @@ export function AdminPage() {
                 </div>
                 <button onClick={() => { saveManagedCategories(adminCategories); saveManagedSubCategories(adminSubCategories); showSaved(); }} className="inline-flex items-center gap-2 rounded-xl bg-gold-400 px-6 py-3 font-semibold text-navy-800 hover:bg-gold-300"><Save className="h-4 w-4" /> Save Categories</button>
               </div>
-            </AdminCard></Reveal>
+            </AdminCard></div>
           )}
 
           {/* NAVBAR LINKS */}
           {active === 'navbar' && (
-            <Reveal><AdminCard title="Navbar Links">
+            <div><AdminCard title="Navbar Links">
               <div className="space-y-4">
                 {adminNavLinks.map((link, i) => (
                   <div key={i} className="flex flex-wrap gap-2 rounded-lg border border-navy-100 p-3">
@@ -1164,12 +1163,12 @@ export function AdminPage() {
                 <button onClick={() => setAdminNavLinks([...adminNavLinks, { to: '', label: '' }])} className="inline-flex items-center gap-1 rounded-lg border border-dashed border-navy-200 px-4 py-2 text-xs font-medium text-navy-600 hover:bg-navy-50"><Plus className="h-3 w-3" /> Add Link</button>
                 <button onClick={() => { saveManagedNavbar(adminNavLinks); showSaved(); }} className="inline-flex items-center gap-2 rounded-xl bg-gold-400 px-6 py-3 font-semibold text-navy-800 hover:bg-gold-300"><Save className="h-4 w-4" /> Save Navbar Links</button>
               </div>
-            </AdminCard></Reveal>
+            </AdminCard></div>
           )}
 
           {/* FOOTER EDITOR */}
           {active === 'footer' && (
-            <Reveal><AdminCard title="Footer Editor">
+            <div><AdminCard title="Footer Editor">
               <div className="space-y-6">
                 <div className="rounded-xl border border-navy-100 bg-navy-50/50 p-4">
                   <h3 className="mb-3 font-semibold text-navy-800">Contact Info</h3>
@@ -1206,7 +1205,7 @@ export function AdminPage() {
                 </div>
                 <button onClick={() => { saveManagedFooter(adminFooter); showSaved(); }} className="inline-flex items-center gap-2 rounded-xl bg-gold-400 px-6 py-3 font-semibold text-navy-800 hover:bg-gold-300"><Save className="h-4 w-4" /> Save Footer</button>
               </div>
-            </AdminCard></Reveal>
+            </AdminCard></div>
           )}
 
           {active === 'branches' && <BranchesAdmin />}
@@ -1218,7 +1217,7 @@ export function AdminPage() {
           {active === 'site-media' && <SiteMediaAdmin />}
 
           {active === 'verifications' && (
-            <Reveal><AdminCard title="Verifications / Property Approvals">
+            <div><AdminCard title="Verifications / Property Approvals">
               <p className="mb-4 text-sm text-navy-500">Review pending properties and approve, reject, or mark them verified.</p>
               <div className="space-y-3">
                 {allProps.map((p) => {
@@ -1251,7 +1250,7 @@ export function AdminPage() {
                   );
                 })}
               </div>
-            </AdminCard></Reveal>
+            </AdminCard></div>
           )}
 
           {active === 'messages' && <MessagesAdmin />}
@@ -1366,7 +1365,7 @@ function DcRatesAdmin() {
   const PROP_TYPES = ['Residential', 'Commercial', 'Agricultural'];
 
   return (
-    <Reveal><AdminCard title="DC Rates Manager">
+    <div><AdminCard title="DC Rates Manager">
       {importMsg && <div className="mb-3 rounded-lg bg-emerald-50 px-3 py-2 text-sm text-emerald-700">{importMsg}</div>}
       <div className="mb-4 flex flex-wrap gap-3">
         <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search by City / Zila / Tehsil / Area..." className="flex-1 rounded-xl border border-navy-100 bg-navy-50/40 px-3 py-2 text-sm outline-none focus:border-gold-400 min-w-[200px]" />
@@ -1424,7 +1423,7 @@ function DcRatesAdmin() {
         <textarea value={csvText} onChange={e => setCsvText(e.target.value)} rows={4} placeholder="city,zila,tehsil,mouzaArea,propertyType,locationStatus,dcRate&#10;Lahore,Lahore,Lahore City,Niaz Baig Thokar,Residential,Urban,15000&#10;Lahore,Lahore,Lahore City,Mansoora,Residential,Urban,18000" className="w-full rounded-lg border border-navy-100 px-3 py-2 text-xs outline-none focus:border-gold-400" />
         <button onClick={handleBulkImport} disabled={!csvText.trim()} className="mt-2 inline-flex items-center gap-1 rounded-lg bg-navy-700 px-4 py-2 text-sm font-semibold text-white hover:bg-navy-800 disabled:opacity-50"><Upload className="h-4 w-4" /> Import CSV</button>
       </div>
-    </AdminCard></Reveal>
+    </AdminCard></div>
   );
 }
 
@@ -1584,7 +1583,7 @@ function SiteMediaAdmin() {
   };
 
   return (
-    <Reveal>
+    <div>
       <AdminCard title={lang === 'ur' ? 'ویب سائٹ میڈیا اور تمام تصاویر' : 'Site Media & Image Assets'}>
         <p className="mb-6 text-sm text-navy-500">
           Upload or update any image across the entire site — Logos, Banners, Category Images, Service Images & Banners.
@@ -1767,7 +1766,7 @@ function SiteMediaAdmin() {
           </button>
         </div>
       </AdminCard>
-    </Reveal>
+    </div>
   );
 }
 
@@ -1818,7 +1817,7 @@ function EmailsAdmin() {
   };
 
   return (
-    <Reveal>
+    <div>
       <AdminCard title={lang === 'ur' ? 'ای میل مینجمنٹ' : 'Email & Inbox Management'}>
         <div className="mb-6 flex gap-2 border-b border-navy-100 pb-3">
           <button
@@ -1923,7 +1922,7 @@ function EmailsAdmin() {
           </div>
         )}
       </AdminCard>
-    </Reveal>
+    </div>
   );
 }
 
@@ -1949,7 +1948,7 @@ function BranchesAdmin() {
   };
 
   return (
-    <Reveal><AdminCard title={lang === 'ur' ? 'برانچ ایڈریس اور رابطہ نمبر' : 'Branches & Contact Numbers'}>
+    <div><AdminCard title={lang === 'ur' ? 'برانچ ایڈریس اور رابطہ نمبر' : 'Branches & Contact Numbers'}>
       {savedMsg && <div className="mb-3 rounded-lg bg-emerald-50 px-3 py-2 text-sm text-emerald-700">{savedMsg}</div>}
 
       {/* Branches */}
@@ -1982,7 +1981,7 @@ function BranchesAdmin() {
       <div className="mt-6">
         <button onClick={save} className="inline-flex items-center gap-2 rounded-xl bg-gold-400 px-6 py-3 font-semibold text-navy-800 hover:bg-gold-300"><Save className="h-4 w-4" /> {lang === 'ur' ? 'محفوظ کریں' : 'Save'}</button>
       </div>
-    </AdminCard></Reveal>
+    </AdminCard></div>
   );
 }
 
@@ -1990,7 +1989,7 @@ function MessagesAdmin() {
   const [inquiries, setInquiries] = useState(() => getInquiries());
   const refresh = () => setInquiries(getInquiries());
   return (
-    <Reveal><AdminCard title="Messages / Inquiries">
+    <div><AdminCard title="Messages / Inquiries">
       <p className="mb-4 text-sm text-navy-500">Inquiries sent from property detail pages.</p>
       <div className="space-y-3">
         {inquiries.length === 0 && <div className="py-8 text-center text-sm text-navy-400">No inquiries yet</div>}
@@ -2015,7 +2014,7 @@ function MessagesAdmin() {
           </div>
         ))}
       </div>
-    </AdminCard></Reveal>
+    </AdminCard></div>
   );
 }
 
@@ -2026,7 +2025,7 @@ function NotificationsAdmin() {
   const save = (next: any[]) => { setNotifications(next); localStorage.setItem('admin_notifications', JSON.stringify(next)); };
   const unread = notifications.filter(n => !n.read).length;
   return (
-    <Reveal><AdminCard title={`Notifications ${unread > 0 ? `(${unread} unread)` : ''}`}>
+    <div><AdminCard title={`Notifications ${unread > 0 ? `(${unread} unread)` : ''}`}>
       <p className="mb-4 text-sm text-navy-500">System notifications for new orders, inquiries and registrations.</p>
       <div className="space-y-3">
         {notifications.length === 0 && <div className="py-8 text-center text-sm text-navy-400">No notifications yet. They appear when users register, submit ads or place orders.</div>}
@@ -2045,7 +2044,7 @@ function NotificationsAdmin() {
         <button onClick={() => { const now = new Date().toLocaleString(); save([{ id: `n${Date.now()}`, text: 'Test notification from admin panel', time: now, read: false, type: 'test' }, ...notifications]); }} className="rounded-lg border border-navy-200 px-3 py-1.5 text-xs font-medium text-navy-600 hover:bg-navy-50">+ Add test notification</button>
         <button onClick={() => save(notifications.filter(n => !n.read).map(n => ({ ...n, read: true })))} disabled={unread === 0} className="rounded-lg border border-navy-200 px-3 py-1.5 text-xs font-medium text-navy-600 hover:bg-navy-50 disabled:opacity-50">Mark all read</button>
       </div>
-    </AdminCard></Reveal>
+    </AdminCard></div>
   );
 }
 
@@ -2064,7 +2063,7 @@ function ReportsAdmin() {
     </div>
   );
   return (
-    <Reveal><AdminCard title="Reports & Analytics">
+    <div><AdminCard title="Reports & Analytics">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {card('Total Users', String(users.length), 'text-navy-800', 'Registered accounts')}
         {card('Total Properties', String(custom.length), 'text-navy-800', 'Custom listings added')}
@@ -2091,7 +2090,7 @@ function ReportsAdmin() {
           ))}
         </div>
       </div>
-    </AdminCard></Reveal>
+    </AdminCard></div>
   );
 }
 
@@ -2104,7 +2103,7 @@ function LogsAdmin() {
   };
   const saveLogs = (next: any[]) => { setLogs(next); localStorage.setItem('admin_logs', JSON.stringify(next)); };
   return (
-    <Reveal><AdminCard title="Audit Logs">
+    <div><AdminCard title="Audit Logs">
       <p className="mb-4 text-sm text-navy-500">Actions performed in the admin panel are recorded here.</p>
       <div className="space-y-2">
         {logs.length === 0 && <div className="py-8 text-center text-sm text-navy-400">No logs recorded yet.</div>}
@@ -2121,7 +2120,7 @@ function LogsAdmin() {
         <button onClick={() => log('Opened audit logs', 'Admin')} className="rounded-lg border border-navy-200 px-3 py-1.5 text-xs font-medium text-navy-600 hover:bg-navy-50">+ Add log entry</button>
         <button onClick={() => saveLogs([])} className="rounded-lg border border-rose-200 px-3 py-1.5 text-xs font-medium text-rose-600 hover:bg-rose-50">Clear logs</button>
       </div>
-    </AdminCard></Reveal>
+    </AdminCard></div>
   );
 }
 

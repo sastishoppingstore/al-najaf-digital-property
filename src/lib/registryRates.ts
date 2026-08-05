@@ -1,4 +1,4 @@
-const API_URL = new URL('api/index.php', window.location.origin + window.location.pathname.replace(/\/[^/]*$/, '') + '/').href;
+const API_URL = new URL('api/index.php', window.location.origin + '/').href;
 
 export const REGISTRY_RATES = {
   stampDuty: { pct: 1, labelEn: 'Stamp Duty (1%)', labelUr: 'اسٹامپ ڈیوٹی (1%)', lawRef: 'Punjab Stamp Act 1899, amended via Finance Act 2025-26' },

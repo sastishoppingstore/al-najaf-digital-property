@@ -1,6 +1,6 @@
 import { notifyData } from '@/lib/dataService';
 
-const API_URL = new URL('api/index.php', window.location.origin + window.location.pathname.replace(/\/[^/]*$/, '') + '/').href;
+const API_URL = new URL('api/index.php', window.location.origin + '/').href;
 
 async function api(data: Record<string, unknown>): Promise<Record<string, any>> {
   try {
